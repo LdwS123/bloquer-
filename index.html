@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloqueur de Sites - Version Mobile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .add-site-section, .blocked-sites-section, .control-section {
+            margin-bottom: 30px;
+        }
+
+        .add-site-section h2, .blocked-sites-section h2, .control-section h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #siteInput {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            -webkit-appearance: none;
+        }
+
+        #siteInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover, .btn-primary:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover, .btn-secondary:active {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+        }
+
+        .btn-danger:hover, .btn-danger:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 101, 101, 0.3);
+        }
+
+        .quick-add {
+            margin-top: 20px;
+        }
+
+        .quick-add h3 {
+            color: #718096;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quick-btn {
+            padding: 12px 20px;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .quick-btn:hover, .quick-btn:active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .sites-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .site-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .site-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .site-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .remove-btn {
+            background: #fed7d7;
+            color: #c53030;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .remove-btn:hover, .remove-btn:active {
+            background: #feb2b2;
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #a0aec0;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .empty-state p:last-child {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .status p {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .status p:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-active {
+            color: #38a169;
+            font-weight: bold;
+        }
+
+        .status-paused {
+            color: #d69e2e;
+            font-weight: bold;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.hidden {
+            display: none;
+        }
+
+        /* Responsive design pour iPhone */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+            }
+            
+            .quick-buttons {
+                justify-content: center;
+            }
+            
+            .notification {
+                right: 15px;
+                left: 15px;
+                transform: translateY(-100px);
+            }
+            
+            .notification.show {
+                transform: translateY(0);
+            }
+
+            .btn {
+                padding: 18px 25px;
+                font-size: 18px;
+            }
+
+            .quick-btn {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+        }
+
+        /* Scrollbar personnalisée */
+        .sites-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sites-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .sites-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .sites-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Optimisations pour iPhone */
+        input, button, select, textarea {
+            font-size: 16px !important;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-alt"></i> Bloqueur de Sites</h1>
+            <p>Contrôlez votre accès aux sites web</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Section d'ajout de sites -->
+            <div class="add-site-section">
+                <h2><i class="fas fa-plus-circle"></i> Ajouter un site à bloquer</h2>
+                <div class="input-group">
+                    <input type="text" id="siteInput" placeholder="exemple.com ou www.exemple.com" />
+                    <button id="addSiteBtn" class="btn btn-primary">
+                        <i class="fas fa-ban"></i> Bloquer
+                    </button>
+                </div>
+                <div class="quick-add">
+                    <h3>Sites populaires à bloquer :</h3>
+                    <div class="quick-buttons">
+                        <button class="quick-btn" data-site="facebook.com">Facebook</button>
+                        <button class="quick-btn" data-site="instagram.com">Instagram</button>
+                        <button class="quick-btn" data-site="twitter.com">Twitter</button>
+                        <button class="quick-btn" data-site="youtube.com">YouTube</button>
+                        <button class="quick-btn" data-site="tiktok.com">TikTok</button>
+                        <button class="quick-btn" data-site="reddit.com">Reddit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section des sites bloqués -->
+            <div class="blocked-sites-section">
+                <h2><i class="fas fa-list"></i> Sites bloqués (<span id="blockedCount">0</span>)</h2>
+                <div id="blockedSitesList" class="sites-list">
+                    <!-- Les sites bloqués apparaîtront ici -->
+                </div>
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucun site bloqué pour le moment</p>
+                    <p>Ajoutez des sites pour commencer à contrôler votre accès</p>
+                </div>
+            </div>
+
+            <!-- Section de contrôle -->
+            <div class="control-section">
+                <h2><i class="fas fa-cog"></i> Contrôles</h2>
+                <div class="control-buttons">
+                    <button id="toggleBlockingBtn" class="btn btn-secondary">
+                        <i class="fas fa-pause"></i> Pause (5 min)
+                    </button>
+                    <button id="clearAllBtn" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Tout supprimer
+                    </button>
+                </div>
+                <div class="status">
+                    <p>Statut : <span id="blockingStatus" class="status-active">Actif</span></p>
+                    <p>Temps restant : <span id="pauseTime">-</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notification" class="notification hidden">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <script>
+        class SiteBlocker {
+            constructor() {
+                this.blockedSites = [];
+                this.isBlockingActive = true;
+                this.pauseEndTime = null;
+                this.pauseInterval = null;
+                
+                this.init();
+            }
+
+            init() {
+                this.loadBlockedSites();
+                this.setupEventListeners();
+                this.updateUI();
+                this.startBlocking();
+                this.checkPauseStatus();
+            }
+
+            setupEventListeners() {
+                // Bouton d'ajout de site
+                document.getElementById('addSiteBtn').addEventListener('click', () => {
+                    this.addSite();
+                });
+
+                // Entrée dans le champ de saisie
+                document.getElementById('siteInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.addSite();
+                    }
+                });
+
+                // Boutons de sites rapides
+                document.querySelectorAll('.quick-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const site = btn.dataset.site;
+                        this.addSiteToList(site);
+                    });
+                });
+
+                // Bouton pause/reprise
+                document.getElementById('toggleBlockingBtn').addEventListener('click', () => {
+                    this.togglePause();
+                });
+
+                // Bouton tout supprimer
+                document.getElementById('clearAllBtn').addEventListener('click', () => {
+                    this.clearAllSites();
+                });
+            }
+
+            addSite() {
+                const input = document.getElementById('siteInput');
+                const site = input.value.trim().toLowerCase();
+                
+                if (!site) {
+                    this.showNotification('Veuillez entrer un nom de site', 'error');
+                    return;
+                }
+
+                // Nettoyer l'URL
+                const cleanSite = this.cleanSiteUrl(site);
+                
+                if (this.blockedSites.includes(cleanSite)) {
+                    this.showNotification('Ce site est déjà bloqué', 'warning');
+                    return;
+                }
+
+                this.addSiteToList(cleanSite);
+                input.value = '';
+            }
+
+            cleanSiteUrl(url) {
+                // Supprimer le protocole
+                url = url.replace(/^https?:\/\//, '');
+                // Supprimer www. si présent
+                url = url.replace(/^www\./, '');
+                // Supprimer tout ce qui suit le premier /
+                url = url.split('/')[0];
+                return url;
+            }
+
+            addSiteToList(site) {
+                this.blockedSites.push(site);
+                this.saveBlockedSites();
+                this.updateUI();
+                this.showNotification(`Site ${site} ajouté à la liste de blocage`);
+            }
+
+            removeSite(site) {
+                const index = this.blockedSites.indexOf(site);
+                if (index > -1) {
+                    this.blockedSites.splice(index, 1);
+                    this.saveBlockedSites();
+                    this.updateUI();
+                    this.showNotification(`Site ${site} retiré de la liste de blocage`);
+                }
+            }
+
+            clearAllSites() {
+                if (this.blockedSites.length === 0) {
+                    this.showNotification('Aucun site à supprimer', 'warning');
+                    return;
+                }
+
+                if (confirm('Êtes-vous sûr de vouloir supprimer tous les sites bloqués ?')) {
+                    this.blockedSites = [];
+                    this.saveBlockedSites();
+                    this.updateUI();
+                    this.showNotification('Tous les sites ont été supprimés');
+                }
+            }
+
+            togglePause() {
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    // Annuler la pause
+                    this.pauseEndTime = null;
+                    if (this.pauseInterval) {
+                        clearInterval(this.pauseInterval);
+                        this.pauseInterval = null;
+                    }
+                    this.isBlockingActive = true;
+                    this.showNotification('Blocage réactivé');
+                } else {
+                    // Activer la pause
+                    this.pauseEndTime = Date.now() + (5 * 60 * 1000); // 5 minutes
+                    this.isBlockingActive = false;
+                    this.startPauseTimer();
+                    this.showNotification('Pause de 5 minutes activée');
+                }
+                
+                this.updateUI();
+            }
+
+            startPauseTimer() {
+                if (this.pauseInterval) {
+                    clearInterval(this.pauseInterval);
+                }
+                
+                this.pauseInterval = setInterval(() => {
+                    if (Date.now() >= this.pauseEndTime) {
+                        this.pauseEndTime = null;
+                        this.isBlockingActive = true;
+                        clearInterval(this.pauseInterval);
+                        this.pauseInterval = null;
+                        this.updateUI();
+                        this.showNotification('Pause terminée - Blocage réactivé');
+                    } else {
+                        this.updatePauseTime();
+                    }
+                }, 1000);
+                
+                this.updatePauseTime();
+            }
+
+            updatePauseTime() {
+                const timeLeft = this.pauseEndTime - Date.now();
+                if (timeLeft > 0) {
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    document.getElementById('pauseTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    document.getElementById('pauseTime').textContent = '-';
+                }
+            }
+
+            checkPauseStatus() {
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    this.isBlockingActive = false;
+                    this.startPauseTimer();
+                } else if (this.pauseEndTime && Date.now() >= this.pauseEndTime) {
+                    this.pauseEndTime = null;
+                    this.isBlockingActive = true;
+                }
+                this.updateUI();
+            }
+
+            updateUI() {
+                this.updateBlockedSitesList();
+                this.updateBlockedCount();
+                this.updateStatus();
+                this.updatePauseButton();
+            }
+
+            updateBlockedSitesList() {
+                const list = document.getElementById('blockedSitesList');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (this.blockedSites.length === 0) {
+                    list.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                emptyState.style.display = 'none';
+                list.innerHTML = '';
+                
+                this.blockedSites.forEach(site => {
+                    const siteItem = document.createElement('div');
+                    siteItem.className = 'site-item';
+                    siteItem.innerHTML = `
+                        <span class="site-name">${site}</span>
+                        <button class="remove-btn" onclick="siteBlocker.removeSite('${site}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    list.appendChild(siteItem);
+                });
+            }
+
+            updateBlockedCount() {
+                document.getElementById('blockedCount').textContent = this.blockedSites.length;
+            }
+
+            updateStatus() {
+                const statusElement = document.getElementById('blockingStatus');
+                if (this.isBlockingActive) {
+                    statusElement.textContent = 'Actif';
+                    statusElement.className = 'status-active';
+                } else {
+                    statusElement.className = 'status-paused';
+                    statusElement.textContent = 'En pause';
+                }
+            }
+
+            updatePauseButton() {
+                const btn = document.getElementById('toggleBlockingBtn');
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    btn.innerHTML = '<i class="fas fa-play"></i> Reprendre';
+                    btn.className = 'btn btn-primary';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-pause"></i> Pause (5 min)';
+                    btn.className = 'btn btn-secondary';
+                }
+            }
+
+            startBlocking() {
+                // Vérifier si on est sur un site bloqué
+                const currentHost = window.location.hostname.replace(/^www\./, '');
+                
+                if (this.blockedSites.includes(currentHost) && this.isBlockingActive) {
+                    this.showBlockedPage();
+                }
+            }
+
+            showBlockedPage() {
+                document.body.innerHTML = `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100vh;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        text-align: center;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    ">
+                        <div style="
+                            background: white;
+                            color: #333;
+                            padding: 40px;
+                            border-radius: 20px;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                            max-width: 500px;
+                            margin: 20px;
+                        ">
+                            <h1 style="color: #e53e3e; margin-bottom: 20px;">
+                                <i class="fas fa-ban"></i> Site Bloqué
+                            </h1>
+                            <p style="font-size: 1.2rem; margin-bottom: 15px;">
+                                Ce site a été bloqué par votre bloqueur.
+                            </p>
+                            <p style="color: #718096; margin-bottom: 30px;">
+                                Vous pouvez désactiver temporairement le blocage depuis l'application.
+                            </p>
+                            <button onclick="window.history.back()" style="
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                color: white;
+                                border: none;
+                                padding: 15px 30px;
+                                border-radius: 10px;
+                                font-size: 16px;
+                                cursor: pointer;
+                                margin-right: 10px;
+                            ">
+                                <i class="fas fa-arrow-left"></i> Retour
+                            </button>
+                            <button onclick="window.location.reload()" style="
+                                background: #f7fafc;
+                                color: #4a5568;
+                                border: 2px solid #e2e8f0;
+                                padding: 15px 30px;
+                                border-radius: 10px;
+                                font-size: 16px;
+                                cursor: pointer;
+                            ">
+                                <i class="fas fa-cog"></i> Paramètres
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const text = document.getElementById('notificationText');
+                
+                text.textContent = message;
+                
+                // Changer la couleur selon le type
+                if (type === 'error') {
+                    notification.style.background = '#e53e3e';
+                } else if (type === 'warning') {
+                    notification.style.background = '#d69e2e';
+                } else {
+                    notification.style.background = '#48bb78';
+                }
+                
+                notification.classList.remove('hidden');
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 300);
+                }, 3000);
+            }
+
+            saveBlockedSites() {
+                localStorage.setItem('blockedSites', JSON.stringify(this.blockedSites));
+                localStorage.setItem('isBlockingActive', JSON.stringify(this.isBlockingActive));
+                if (this.pauseEndTime) {
+                    localStorage.setItem('pauseEndTime', JSON.stringify(this.pauseEndTime));
+                } else {
+                    localStorage.removeItem('pauseEndTime');
+                }
+            }
+
+            loadBlockedSites() {
+                const saved = localStorage.getItem('blockedSites');
+                if (saved) {
+                    this.blockedSites = JSON.parse(saved);
+                }
+                
+                const savedActive = localStorage.getItem('isBlockingActive');
+                if (savedActive !== null) {
+                    this.isBlockingActive = JSON.parse(savedActive);
+                }
+                
+                const savedPause = localStorage.getItem('pauseEndTime');
+                if (savedPause) {
+                    this.pauseEndTime = JSON.parse(savedPause);
+                }
+            }
+        }
+
+        // Initialiser l'application
+        const siteBlocker = new SiteBlocker();
+
+        // Fonction globale pour l'accès depuis les boutons
+        window.siteBlocker = siteBlocker;
+    </script>
+</body>
+</html> 
