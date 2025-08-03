@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bloqueur ULTRA RADICAL - Contrôle Total</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #ff0000;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #ff6b6b;
+        }
+
+        .main-content {
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff0000;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .ultra-warning {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 3px solid #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .ultra-warning h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ffffff;
+        }
+
+        .add-site-section {
+            margin-bottom: 30px;
+        }
+
+        .add-site-section h2 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        #siteInput {
+            flex: 1;
+            padding: 20px;
+            border: 3px solid #ff0000;
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            -webkit-appearance: none;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        #siteInput:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        #siteInput::placeholder {
+            color: #ff6b6b;
+        }
+
+        .btn {
+            padding: 20px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            color: white;
+            border: 2px solid #ff6b6b;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ffffff;
+            border: 2px solid #ff0000;
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 0, 0, 0.3);
+            transform: scale(0.95);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #8b0000, #4a0000);
+            color: white;
+            border: 2px solid #ff0000;
+        }
+
+        .btn-danger:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.6);
+        }
+
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quick-btn {
+            padding: 18px 25px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 700;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .quick-btn:active {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            color: white;
+            transform: scale(0.95);
+            box-shadow: 0 3px 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .blocked-sites-section {
+            margin-bottom: 30px;
+        }
+
+        .blocked-sites-section h2 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .sites-list {
+            max-height: 250px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .site-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ff0000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .site-name {
+            font-weight: 900;
+            color: #ffffff;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #8b0000, #4a0000);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+        }
+
+        .remove-btn:active {
+            transform: scale(0.9);
+            box-shadow: 0 3px 10px rgba(139, 0, 0, 0.6);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #ff6b6b;
+            font-size: 18px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .control-section h2 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #00ff00;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .status p {
+            margin-bottom: 12px;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        .status p:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-active {
+            color: #00ff00;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
+
+        .status-paused {
+            color: #ffa500;
+            text-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 1000;
+            transform: translateY(-100px);
+            transition: transform 0.3s ease;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+            border: 2px solid #ff6b6b;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+        }
+
+        .notification.hidden {
+            display: none;
+        }
+
+        .ultra-stats {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .ultra-stats h3 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 12px;
+            border: 1px solid #ff0000;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ff0000;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .ultra-instructions {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .ultra-instructions h3 {
+            color: #ff0000;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .ultra-instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ultra-instructions li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #ff0000;
+            color: #ffffff;
+        }
+
+        /* Optimisations pour iPhone */
+        input, button, select, textarea {
+            font-size: 16px !important;
+        }
+
+        /* Scrollbar personnalisée pour iOS */
+        .sites-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sites-list::-webkit-scrollbar-track {
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .sites-list::-webkit-scrollbar-thumb {
+            background: #ff0000;
+            border-radius: 4px;
+        }
+
+        .sites-list::-webkit-scrollbar-thumb:hover {
+            background: #8b0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-skull-crossbones"></i> BLOQUEUR ULTRA RADICAL</h1>
+            <p>Contrôle TOTAL et ABSOLU sur votre iPhone</p>
+        </header>
+
+        <div class="main-content">
+            <div class="ultra-warning">
+                <h3><i class="fas fa-exclamation-triangle"></i> MODE ULTRA RADICAL ACTIVÉ</h3>
+                <p>Cette version utilise des techniques ULTRA avancées pour un blocage MAXIMAL</p>
+            </div>
+
+            <!-- Section d'ajout de sites -->
+            <div class="add-site-section">
+                <h2><i class="fas fa-plus-circle"></i> Ajouter un site à BLOQUER ULTRA</h2>
+                <div class="input-group">
+                    <input type="text" id="siteInput" placeholder="exemple.com" />
+                    <button id="addSiteBtn" class="btn btn-primary">
+                        <i class="fas fa-ban"></i> BLOQUER ULTRA
+                    </button>
+                </div>
+                <div class="quick-buttons">
+                    <button class="quick-btn" data-site="youtube.com">YouTube</button>
+                    <button class="quick-btn" data-site="facebook.com">Facebook</button>
+                    <button class="quick-btn" data-site="instagram.com">Instagram</button>
+                    <button class="quick-btn" data-site="twitter.com">Twitter</button>
+                    <button class="quick-btn" data-site="tiktok.com">TikTok</button>
+                    <button class="quick-btn" data-site="reddit.com">Reddit</button>
+                    <button class="quick-btn" data-site="netflix.com">Netflix</button>
+                    <button class="quick-btn" data-site="twitch.tv">Twitch</button>
+                </div>
+            </div>
+
+            <!-- Section des sites bloqués -->
+            <div class="blocked-sites-section">
+                <h2><i class="fas fa-list"></i> Sites BLOQUÉS ULTRA (<span id="blockedCount">0</span>)</h2>
+                <div id="blockedSitesList" class="sites-list">
+                    <!-- Les sites bloqués apparaîtront ici -->
+                </div>
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucun site bloqué</p>
+                    <p>Ajoutez des sites pour activer le BLOQUEUR ULTRA RADICAL</p>
+                </div>
+            </div>
+
+            <!-- Section de contrôle -->
+            <div class="control-section">
+                <h2><i class="fas fa-cog"></i> Contrôles ULTRA RADICAUX</h2>
+                <div class="control-buttons">
+                    <button id="toggleBlockingBtn" class="btn btn-secondary">
+                        <i class="fas fa-pause"></i> Pause (5 min)
+                    </button>
+                    <button id="clearAllBtn" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> TOUT SUPPRIMER
+                    </button>
+                </div>
+                <div class="status">
+                    <p>Statut : <span id="blockingStatus" class="status-active">ULTRA RADICAL ACTIF</span></p>
+                    <p>Temps restant : <span id="pauseTime">-</span></p>
+                </div>
+            </div>
+
+            <!-- Statistiques ultra radicales -->
+            <div class="ultra-stats">
+                <h3><i class="fas fa-chart-line"></i> Statistiques ULTRA Radicales</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalBlocked">0</div>
+                        <div class="stat-label">Sites bloqués</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="timeSaved">0</div>
+                        <div class="stat-label">Minutes économisées</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions ultra radicales -->
+            <div class="ultra-instructions">
+                <h3><i class="fas fa-info-circle"></i> Instructions ULTRA Radicales</h3>
+                <ul>
+                    <li><strong>1.</strong> Ajoutez cette page à vos favoris Safari</li>
+                    <li><strong>2.</strong> Gardez cette page ouverte en arrière-plan</li>
+                    <li><strong>3.</strong> Utilisez la pause de 5 min si nécessaire</li>
+                    <li><strong>4.</strong> Vérifiez régulièrement vos statistiques</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notification" class="notification hidden">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <script>
+        class UltraRadicalBlocker {
+            constructor() {
+                this.blockedSites = [];
+                this.isBlockingActive = true;
+                this.pauseEndTime = null;
+                this.pauseInterval = null;
+                this.blockCount = 0;
+                this.timeSaved = 0;
+                
+                this.init();
+            }
+
+            init() {
+                this.loadBlockedSites();
+                this.setupEventListeners();
+                this.updateUI();
+                this.startUltraRadicalBlocking();
+                this.checkPauseStatus();
+                this.startStatsTracking();
+                this.startUltraMonitoring();
+            }
+
+            setupEventListeners() {
+                // Bouton d'ajout de site
+                document.getElementById('addSiteBtn').addEventListener('click', () => {
+                    this.addSite();
+                });
+
+                // Entrée dans le champ de saisie
+                document.getElementById('siteInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.addSite();
+                    }
+                });
+
+                // Boutons de sites rapides
+                document.querySelectorAll('.quick-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const site = btn.dataset.site;
+                        this.addSiteToList(site);
+                    });
+                });
+
+                // Bouton pause/reprise
+                document.getElementById('toggleBlockingBtn').addEventListener('click', () => {
+                    this.togglePause();
+                });
+
+                // Bouton tout supprimer
+                document.getElementById('clearAllBtn').addEventListener('click', () => {
+                    this.clearAllSites();
+                });
+            }
+
+            addSite() {
+                const input = document.getElementById('siteInput');
+                const site = input.value.trim().toLowerCase();
+                
+                if (!site) {
+                    this.showNotification('Veuillez entrer un nom de site', 'error');
+                    return;
+                }
+
+                const cleanSite = this.cleanSiteUrl(site);
+                
+                if (this.blockedSites.includes(cleanSite)) {
+                    this.showNotification('Ce site est déjà BLOQUÉ ULTRA RADICALEMENT', 'warning');
+                    return;
+                }
+
+                this.addSiteToList(cleanSite);
+                input.value = '';
+            }
+
+            cleanSiteUrl(url) {
+                url = url.replace(/^https?:\/\//, '');
+                url = url.replace(/^www\./, '');
+                url = url.split('/')[0];
+                return url;
+            }
+
+            addSiteToList(site) {
+                this.blockedSites.push(site);
+                this.saveBlockedSites();
+                this.updateUI();
+                this.showNotification(`Site ${site} BLOQUÉ ULTRA RADICALEMENT !`);
+                this.blockCount++;
+                this.updateStats();
+            }
+
+            removeSite(site) {
+                const index = this.blockedSites.indexOf(site);
+                if (index > -1) {
+                    this.blockedSites.splice(index, 1);
+                    this.saveBlockedSites();
+                    this.updateUI();
+                    this.showNotification(`Site ${site} débloqué`);
+                }
+            }
+
+            clearAllSites() {
+                if (this.blockedSites.length === 0) {
+                    this.showNotification('Aucun site à supprimer', 'warning');
+                    return;
+                }
+
+                if (confirm('Êtes-vous sûr de vouloir DÉBLOQUER TOUS les sites ?')) {
+                    this.blockedSites = [];
+                    this.saveBlockedSites();
+                    this.updateUI();
+                    this.showNotification('TOUS les sites ont été DÉBLOQUÉS');
+                }
+            }
+
+            togglePause() {
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    // Annuler la pause
+                    this.pauseEndTime = null;
+                    if (this.pauseInterval) {
+                        clearInterval(this.pauseInterval);
+                        this.pauseInterval = null;
+                    }
+                    this.isBlockingActive = true;
+                    this.showNotification('BLOQUEUR ULTRA RADICAL RÉACTIVÉ');
+                } else {
+                    // Activer la pause
+                    this.pauseEndTime = Date.now() + (5 * 60 * 1000);
+                    this.isBlockingActive = false;
+                    this.startPauseTimer();
+                    this.showNotification('PAUSE de 5 minutes activée');
+                }
+                
+                this.updateUI();
+            }
+
+            startPauseTimer() {
+                if (this.pauseInterval) {
+                    clearInterval(this.pauseInterval);
+                }
+                
+                this.pauseInterval = setInterval(() => {
+                    if (Date.now() >= this.pauseEndTime) {
+                        this.pauseEndTime = null;
+                        this.isBlockingActive = true;
+                        clearInterval(this.pauseInterval);
+                        this.pauseInterval = null;
+                        this.updateUI();
+                        this.showNotification('PAUSE TERMINÉE - BLOQUEUR ULTRA RADICAL RÉACTIVÉ');
+                    } else {
+                        this.updatePauseTime();
+                    }
+                }, 1000);
+                
+                this.updatePauseTime();
+            }
+
+            updatePauseTime() {
+                const timeLeft = this.pauseEndTime - Date.now();
+                if (timeLeft > 0) {
+                    const minutes = Math.floor(timeLeft / 60000);
+                    const seconds = Math.floor((timeLeft % 60000) / 1000);
+                    document.getElementById('pauseTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    document.getElementById('pauseTime').textContent = '-';
+                }
+            }
+
+            checkPauseStatus() {
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    this.isBlockingActive = false;
+                    this.startPauseTimer();
+                } else if (this.pauseEndTime && Date.now() >= this.pauseEndTime) {
+                    this.pauseEndTime = null;
+                    this.isBlockingActive = true;
+                }
+                this.updateUI();
+            }
+
+            startUltraRadicalBlocking() {
+                // Vérifier si on est sur un site bloqué
+                const currentHost = window.location.hostname.replace(/^www\./, '');
+                
+                if (this.blockedSites.includes(currentHost) && this.isBlockingActive) {
+                    this.showUltraRadicalBlockedPage();
+                }
+
+                // Intercepter TOUS les clics
+                document.addEventListener('click', (e) => {
+                    this.interceptClick(e);
+                }, true);
+
+                // Intercepter les soumissions de formulaires
+                document.addEventListener('submit', (e) => {
+                    this.interceptForm(e);
+                }, true);
+
+                // Intercepter les changements de location
+                window.addEventListener('beforeunload', (e) => {
+                    this.interceptNavigation(e);
+                });
+
+                // Intercepter les touches clavier
+                document.addEventListener('keydown', (e) => {
+                    this.interceptKeyboard(e);
+                });
+            }
+
+            interceptClick(e) {
+                if (!this.isBlockingActive || this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    return;
+                }
+
+                let target = e.target;
+                
+                // Vérifier si c'est un lien
+                while (target && target !== document) {
+                    if (target.tagName === 'A' && target.href) {
+                        const url = new URL(target.href, window.location.origin);
+                        const hostname = url.hostname.replace(/^www\./, '');
+                        
+                        if (this.blockedSites.includes(hostname)) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.showNotification(`Accès ULTRA BLOQUÉ à ${hostname}`, 'error');
+                            this.blockCount++;
+                            this.updateStats();
+                            return false;
+                        }
+                    }
+                    target = target.parentElement;
+                }
+            }
+
+            interceptForm(e) {
+                if (!this.isBlockingActive || this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    return;
+                }
+
+                const form = e.target;
+                const action = form.action;
+                if (action) {
+                    const url = new URL(action, window.location.origin);
+                    const hostname = url.hostname.replace(/^www\./, '');
+                    
+                    if (this.blockedSites.includes(hostname)) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.showNotification(`Formulaire ULTRA BLOQUÉ vers ${hostname}`, 'error');
+                        this.blockCount++;
+                        this.updateStats();
+                        return false;
+                    }
+                }
+            }
+
+            interceptNavigation(e) {
+                if (!this.isBlockingActive || this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    return;
+                }
+
+                const currentHost = window.location.hostname.replace(/^www\./, '');
+                if (this.blockedSites.includes(currentHost)) {
+                    e.preventDefault();
+                    e.returnValue = 'Navigation bloquée';
+                    return 'Navigation bloquée';
+                }
+            }
+
+            interceptKeyboard(e) {
+                if (!this.isBlockingActive || this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    return;
+                }
+
+                // Bloquer Ctrl+L (barre d'adresse)
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    this.showNotification('Barre d\'adresse ULTRA BLOQUÉE', 'error');
+                    return false;
+                }
+
+                // Bloquer F6 (barre d'adresse)
+                if (e.key === 'F6') {
+                    e.preventDefault();
+                    this.showNotification('Barre d\'adresse ULTRA BLOQUÉE', 'error');
+                    return false;
+                }
+            }
+
+            startUltraMonitoring() {
+                // Vérifier toutes les secondes si on est sur un site bloqué
+                setInterval(() => {
+                    if (!this.isBlockingActive || this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                        return;
+                    }
+
+                    const currentHost = window.location.hostname.replace(/^www\./, '');
+                    if (this.blockedSites.includes(currentHost)) {
+                        this.showUltraRadicalBlockedPage();
+                    }
+                }, 1000);
+            }
+
+            showUltraRadicalBlockedPage() {
+                document.body.innerHTML = `
+                    <div style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100vh;
+                        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+                        color: white;
+                        text-align: center;
+                        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+                        padding: 20px;
+                    ">
+                        <div style="
+                            background: rgba(255, 0, 0, 0.1);
+                            color: #ffffff;
+                            padding: 40px;
+                            border-radius: 20px;
+                            backdrop-filter: blur(10px);
+                            border: 3px solid #ff0000;
+                            max-width: 500px;
+                            width: 100%;
+                            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+                        ">
+                            <div style="font-size: 5rem; color: #ff0000; margin-bottom: 20px;">
+                                <i class="fas fa-skull-crossbones"></i>
+                            </div>
+                            <h1 style="color: #ff0000; margin-bottom: 20px; font-size: 2.5rem; text-shadow: 0 0 20px #ff0000;">
+                                SITE ULTRA BLOQUÉ
+                            </h1>
+                            <p style="font-size: 1.3rem; margin-bottom: 15px; color: #ffffff;">
+                                Ce site a été BLOQUÉ ULTRA RADICALEMENT.
+                            </p>
+                            <p style="color: #ff6b6b; margin-bottom: 30px;">
+                                Vous pouvez désactiver temporairement le blocage depuis l'application.
+                            </p>
+                            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                                <button onclick="window.history.back()" style="
+                                    background: linear-gradient(135deg, #ff0000, #8b0000);
+                                    color: white;
+                                    border: none;
+                                    padding: 18px 35px;
+                                    border-radius: 12px;
+                                    font-size: 18px;
+                                    cursor: pointer;
+                                    font-weight: 900;
+                                    border: 2px solid #ff6b6b;
+                                ">
+                                    <i class="fas fa-arrow-left"></i> Retour
+                                </button>
+                                <button onclick="window.location.reload()" style="
+                                    background: rgba(255, 0, 0, 0.2);
+                                    color: #ffffff;
+                                    border: 2px solid #ff0000;
+                                    padding: 18px 35px;
+                                    border-radius: 12px;
+                                    font-size: 18px;
+                                    cursor: pointer;
+                                    font-weight: 900;
+                                ">
+                                    <i class="fas fa-cog"></i> Paramètres
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateUI() {
+                this.updateBlockedSitesList();
+                this.updateBlockedCount();
+                this.updateStatus();
+                this.updatePauseButton();
+            }
+
+            updateBlockedSitesList() {
+                const list = document.getElementById('blockedSitesList');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (this.blockedSites.length === 0) {
+                    list.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                emptyState.style.display = 'none';
+                list.innerHTML = '';
+                
+                this.blockedSites.forEach(site => {
+                    const siteItem = document.createElement('div');
+                    siteItem.className = 'site-item';
+                    siteItem.innerHTML = `
+                        <span class="site-name">${site}</span>
+                        <button class="remove-btn" onclick="ultraRadicalBlocker.removeSite('${site}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    list.appendChild(siteItem);
+                });
+            }
+
+            updateBlockedCount() {
+                document.getElementById('blockedCount').textContent = this.blockedSites.length;
+            }
+
+            updateStatus() {
+                const statusElement = document.getElementById('blockingStatus');
+                if (this.isBlockingActive) {
+                    statusElement.textContent = 'ULTRA RADICAL ACTIF';
+                    statusElement.className = 'status-active';
+                } else {
+                    statusElement.className = 'status-paused';
+                    statusElement.textContent = 'EN PAUSE';
+                }
+            }
+
+            updatePauseButton() {
+                const btn = document.getElementById('toggleBlockingBtn');
+                if (this.pauseEndTime && Date.now() < this.pauseEndTime) {
+                    btn.innerHTML = '<i class="fas fa-play"></i> Reprendre';
+                    btn.className = 'btn btn-primary';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-pause"></i> Pause (5 min)';
+                    btn.className = 'btn btn-secondary';
+                }
+            }
+
+            startStatsTracking() {
+                setInterval(() => {
+                    this.timeSaved += this.blockedSites.length * 0.2; // 0.2 minute par site bloqué
+                    this.updateStats();
+                }, 60000); // Mise à jour toutes les minutes
+            }
+
+            updateStats() {
+                document.getElementById('totalBlocked').textContent = this.blockCount;
+                document.getElementById('timeSaved').textContent = Math.floor(this.timeSaved);
+            }
+
+            showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                const text = document.getElementById('notificationText');
+                
+                text.textContent = message;
+                
+                if (type === 'error') {
+                    notification.style.background = 'linear-gradient(135deg, #8b0000, #4a0000)';
+                } else if (type === 'warning') {
+                    notification.style.background = 'linear-gradient(135deg, #ffa500, #ff8c00)';
+                } else {
+                    notification.style.background = 'linear-gradient(135deg, #00ff00, #32cd32)';
+                }
+                
+                notification.classList.remove('hidden');
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 300);
+                }, 3000);
+            }
+
+            saveBlockedSites() {
+                localStorage.setItem('ultraRadicalBlockedSites', JSON.stringify(this.blockedSites));
+                localStorage.setItem('ultraRadicalIsBlockingActive', JSON.stringify(this.isBlockingActive));
+                if (this.pauseEndTime) {
+                    localStorage.setItem('ultraRadicalPauseEndTime', JSON.stringify(this.pauseEndTime));
+                } else {
+                    localStorage.removeItem('ultraRadicalPauseEndTime');
+                }
+                localStorage.setItem('ultraRadicalBlockCount', JSON.stringify(this.blockCount));
+                localStorage.setItem('ultraRadicalTimeSaved', JSON.stringify(this.timeSaved));
+            }
+
+            loadBlockedSites() {
+                const saved = localStorage.getItem('ultraRadicalBlockedSites');
+                if (saved) {
+                    this.blockedSites = JSON.parse(saved);
+                }
+                
+                const savedActive = localStorage.getItem('ultraRadicalIsBlockingActive');
+                if (savedActive !== null) {
+                    this.isBlockingActive = JSON.parse(savedActive);
+                }
+                
+                const savedPause = localStorage.getItem('ultraRadicalPauseEndTime');
+                if (savedPause) {
+                    this.pauseEndTime = JSON.parse(savedPause);
+                }
+
+                const savedBlockCount = localStorage.getItem('ultraRadicalBlockCount');
+                if (savedBlockCount) {
+                    this.blockCount = JSON.parse(savedBlockCount);
+                }
+
+                const savedTimeSaved = localStorage.getItem('ultraRadicalTimeSaved');
+                if (savedTimeSaved) {
+                    this.timeSaved = JSON.parse(savedTimeSaved);
+                }
+            }
+        }
+
+        // Initialiser le bloqueur ultra radical
+        const ultraRadicalBlocker = new UltraRadicalBlocker();
+
+        // Fonction globale pour l'accès depuis les boutons
+        window.ultraRadicalBlocker = ultraRadicalBlocker;
+    </script>
+</body>
+</html> 
